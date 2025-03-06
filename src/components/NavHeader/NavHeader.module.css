@@ -1,0 +1,13 @@
+.backBtn {
+    background-color: var(--mainGrey);
+    font-size: 20px;
+    border-radius: 6px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: ease all 400ms;
+
+    &:hover {
+        background-color: var(--mainYellow);
+    }
+}

@@ -9,12 +9,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 export default function SideMenu() {
     const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState(0);
+
     const [links] = useState([
         { id: 1, name: "Dashboard", icon: <MdDashboard />, path: "/" },
         { id: 2, name: "Food and Drinks", icon: <FaBurger />, path: "/orders" },
         { id: 3, name: "Bills", icon: <HiDocumentCurrencyDollar />, path: "/bills" },
         { id: 4, name: "Settings", icon: <VscSettings />, path: "/settings" },
     ]);
+
     const hanldeLogout = () => { navigate('/login') }
 
     return (
@@ -25,9 +28,14 @@ export default function SideMenu() {
                     <p className="m-0 fs-4">Smart<span id={styles.logo}>POS</span></p>
                 </div>
                 {
-                    links.map((el) => {
+                    links.map((el, index) => {
                         return (
-                            <Link to={el.path} key={el.id} className={"col-12 nav-link px-3 d-flex gap-2 align-items-center " + styles.link + " "} >
+                            <Link onClick={() => setActiveTab(index)} to={el.path} key={el.id}
+                                className={
+                                    "col-12 nav-link px-3 d-flex gap-2 align-items-center "
+                                    + styles.link + " " +
+                                    (activeTab == index ? styles.activeLink : null)
+                                } >
                                 {el.icon}
                                 <p className="m-0">{el.name}</p>
                             </Link>
