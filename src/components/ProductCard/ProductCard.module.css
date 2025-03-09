@@ -1,0 +1,9 @@
+.card {
+    transition: ease all 400ms;
+    background-color: white;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--mainYellow);
+    }
+}
