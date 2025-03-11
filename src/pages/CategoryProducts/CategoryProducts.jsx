@@ -10,14 +10,21 @@ export default function CategoryProducts() {
     const { resetActiveId, domain } = useCategories();
     const navigate = useNavigate();
     const [check, setCheck] = useState(true);
-
     const [categoryInfo, setCategoryInfo] = useState({});
 
     useEffect(() => {
         let documentId = parmas.id;
         let endPoint = `/api/categories/${documentId}`;
         let url = domain + endPoint;
-        axios.get(url, { params: { populate: "*" } }).then((res) => {
+        axios.get(url, {
+            params: {
+                populate: {
+                    products: {
+                        populate: "*"
+                    }
+                } // populate all category Data
+            }
+        }).then((res) => {
             console.log(res.data.data);
             setCategoryInfo(res.data.data);
             setCheck(true);
@@ -34,14 +41,20 @@ export default function CategoryProducts() {
     // console.log(params);
     return (
         check &&
-        <div>
+        <div className="flex-grow-1">
             <NavHeader tabName={categoryInfo.category_name} />
             <h1>Products in Cat : {categoryInfo.category_name}</h1>
             <div className="col-12 d-flex flex-wrap">
                 {
                     categoryInfo.products && categoryInfo.products.map((el) => {
                         return (
-                            <ProductCard key={el.documentId} />
+                            <ProductCard
+                                key={el.documentId}
+                                name={el.product_name}
+                                price={el.product_price}
+                                imgUrl={domain + el.product_img.url}
+                                product={el}
+                            />
                         )
                     })
                 }

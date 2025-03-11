@@ -9,13 +9,16 @@ import SideMenu from "./components/SideMenu/SideMenu";
 import { useEffect, useState } from "react";
 import CategoryProducts from "./pages/CategoryProducts/CategoryProducts";
 import Categories from "./pages/Categories/Categories";
-import { useCategories } from "./store";
+import { useCart, useCategories } from "./store";
 import axios from "axios";
+import Swal from "sweetalert2";
+import SideCart from "./components/SideCart/SideCart";
 export default function App() {
   // to Show SideMenu
   const [acceptedRoutes, setAceptedRoutes] = useState(["/orders", "/settings", "/bills", "/"]);
   const { domain, setData } = useCategories();
   const [path, setPath] = useState();
+  const { cartIndex } = useCart();
   const location = useLocation();
 
   useEffect(() => {
@@ -26,17 +29,25 @@ export default function App() {
     let url = domain + "/api/categories";
     axios.get(url, { params: { populate: "*" } }).then((res) => {
       let cats = res.data.data;
-      console.log(cats);
       let routes = cats.map(el => '/orders/' + el.documentId);
       let newArr = [...acceptedRoutes, ...routes]
       setAceptedRoutes(newArr);
       setData(cats);
+    }).catch((err) => {
+      if (err.code == "ERR_NETWORK") {
+        Swal.fire({
+          icon: "error",
+          title: "Network Error"
+        })
+      }
+      console.log(err.code);
     })
     // eslint-disable-next-line
   }, []);
 
   return (
     <div className="App col-12 d-flex">
+      {cartIndex && <SideCart />}
       {acceptedRoutes.includes(path) && <SideMenu />}
       <Routes>
         <Route path="/" element={<Dashboard />} />

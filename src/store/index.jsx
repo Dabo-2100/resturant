@@ -1,8 +1,4 @@
 
-// Global State categoriesData
-import coldImg from "../assets/imgs/categories/cold.png";
-import wokImg from "../assets/imgs/categories/wok.png";
-import dessertImg from "../assets/imgs/categories/desert.png";
 import { create } from "zustand";
 // set Function can update any state into the object of global state
 export const useCategories = create((set) => (
@@ -26,3 +22,48 @@ export const useCategories = create((set) => (
         resetActiveId: () => (set(() => ({ active_cat_id: 0 })))
     }
 ))
+
+export const useCart = create((set) => ({
+    productsInCart: [],
+    cartIndex: false,
+    checkOutIndex: false,
+
+    openCart: () => (set(() => ({ cartIndex: true }))),
+    closeCart: () => (set(() => ({ cartIndex: false }))),
+
+    openCheckOut: () => (set(() => ({ checkOutIndex: true }))),
+    closeCheckOut: () => (set(() => ({ checkOutIndex: false }))),
+
+    decrementQty: (documentId) => (set((state) => {
+        let copyArray = [...state.productsInCart];
+        let index = copyArray.findIndex(el => el.documentId == documentId);
+
+        if (copyArray[index].qty > 1) {
+            copyArray[index].qty--;
+        } else {
+            copyArray.splice(index, 1);
+        }
+        return { productsInCart: copyArray }
+    })),
+
+    incrementQty: (documentId) => (set((state) => {
+        let copyArray = [...state.productsInCart];
+        let index = copyArray.findIndex(el => el.documentId == documentId);
+        copyArray[index].qty++;
+        return { productsInCart: copyArray }
+    })),
+
+    addToCart: (product) => (set((state) => {
+        let copy = [...state.productsInCart];
+        let obj = copy.find(el => el.documentId == product.documentId);
+        if (obj) {
+            // increment
+            state.incrementQty(product.documentId);
+        } else {
+            copy.push(product);
+        }
+        return { productsInCart: copy }
+    })),
+
+    resetCart: () => (set(() => ({ productsInCart: [] })))
+}));

@@ -2,37 +2,21 @@ import NavHeader from "../../components/NavHeader/NavHeader";
 import styles from "./Categories.module.css";
 import { useCategories } from "../../store";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useEffect, useState } from "react";
-export default function Categories() {
-    const domain = "http://localhost:1337";
-    const { setActiveId , data : appCategories } = useCategories(); // this is object [Global State]
-    const navigate = useNavigate();
-    // const [appCategories, setAppCategories] = useState([]);
 
+
+export default function Categories() {
+
+
+    const { setActiveId, data: appCategories, domain } = useCategories(); // this is object [Global State]
+    const navigate = useNavigate();
     const openCategory = (documentId) => {
         setActiveId(documentId);
         navigate(documentId)
     }
 
-    // const getData = () => {
-    //     let endPoint = "/api/categories";
-    //     let url = domain + endPoint;
-    //     axios.get(url, {
-    //         params: { populate: "*" }
-    //     }).then((res) => {
-    //         // res
-    //         console.log(res.data.data);
-    //         setAppCategories(res.data.data)
-    //     });
-    // }
-
-    useEffect(() => {
-        // getData();
-    }, []);
-
     return (
         <div id={styles.caterogriesPage}>
+            
             <NavHeader tabName={"Categories"} />
             <div className="d-flex flex-wrap col-12">
                 {
