@@ -67,3 +67,14 @@ export const useCart = create((set) => ({
 
     resetCart: () => (set(() => ({ productsInCart: [] })))
 }));
+
+
+export const useInvoiceDetails = create((set) => ({
+    index: false,
+    activeInvoiceId: null,
+    openDetails: () => (set(() => ({ index: true }))),
+    closeDetails: () => (set(() => ({ index: false }))),
+    
+    setActiveId: (id) => (set(() => ({ activeInvoiceId: id }))),
+    resetActiveId: () => (set(() => ({ activeInvoiceId: null })))
+}))

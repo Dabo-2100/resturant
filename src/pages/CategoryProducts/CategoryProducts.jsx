@@ -25,7 +25,6 @@ export default function CategoryProducts() {
                 } // populate all category Data
             }
         }).then((res) => {
-            console.log(res.data.data);
             setCategoryInfo(res.data.data);
             setCheck(true);
         }).catch(() => {
@@ -38,7 +37,6 @@ export default function CategoryProducts() {
         }
         // eslint-disable-next-line
     }, []);
-    // console.log(params);
     return (
         check &&
         <div className="flex-grow-1">

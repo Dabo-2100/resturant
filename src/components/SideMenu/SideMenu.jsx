@@ -14,7 +14,7 @@ export default function SideMenu() {
     const [links] = useState([
         { id: 1, name: "Dashboard", icon: <MdDashboard />, path: "/" },
         { id: 2, name: "Food and Drinks", icon: <FaBurger />, path: "/orders" },
-        { id: 3, name: "Bills", icon: <HiDocumentCurrencyDollar />, path: "/bills" },
+        { id: 3, name: "Invoices", icon: <HiDocumentCurrencyDollar />, path: "/invoices" },
         { id: 4, name: "Settings", icon: <VscSettings />, path: "/settings" },
     ]);
 
